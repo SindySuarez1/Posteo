@@ -1,9 +1,10 @@
 package com.blog.blogFinal.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Posteo {
@@ -11,15 +12,29 @@ public class Posteo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String titulo;
-    private String autor;
+
+    @ManyToOne
+    @JoinColumn(name = "autor", nullable = false)
+    @JsonBackReference
+    private Autor autor;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String contenido;
+
+    @OneToMany(mappedBy = "posteo")
+    @JsonManagedReference
+    private List<Comentario> comentarios;
 
     public Posteo() {
     }
 
-    public Posteo(Long id, String titulo, String autor) {
+    public Posteo(Long id, String titulo,  Autor autor, String contenido) {
         this.id = id;
         this.titulo = titulo;
+        this.contenido = contenido;
         this.autor = autor;
     }
 
@@ -39,11 +54,25 @@ public class Posteo {
         this.titulo = titulo;
     }
 
-    public String getAutor() {
+    public void setAutor(Autor autor) {
+        this.autor = autor;
+    }
+    public Autor getAutor() {
         return autor;
     }
+    public String getContenido() {
+        return contenido;
+    }
 
-    public void setAutor(String autor) {
-        this.autor = autor;
+    public void setContenido(String contenido) {
+        this.contenido = contenido;
+    }
+
+    public List<Comentario> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios = comentarios;
     }
 }

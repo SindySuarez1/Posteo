@@ -1,5 +1,6 @@
 package com.blog.blogFinal.service;
 
+import com.blog.blogFinal.model.Autor;
 import com.blog.blogFinal.model.Posteo;
 import com.blog.blogFinal.repository.IposteoRepository;
 import org.springframework.stereotype.Service;
@@ -35,11 +36,10 @@ public class PosteoService implements IservicePosteo{
         Optional<Posteo> existente = posteoRepository.findById(posteo.getId());
         if (existente.isPresent()) {
             Posteo actualizado = existente.get();
-
             actualizado.setTitulo(posteo.getTitulo());
             actualizado.setAutor(posteo.getAutor());
-            posteoRepository.save(actualizado);
-        } else {
+            posteoRepository.save(actualizado); }
+        else {
             throw new RuntimeException("El posteo con id " + posteo.getId() + "no existe" );
         }
     }

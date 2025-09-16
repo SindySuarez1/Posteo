@@ -41,6 +41,7 @@ public class PosteoController {
             posteoService.editarPosteo(posteo);
             return ResponseEntity.ok("Posteo actualizado con éxito");
         } catch (RuntimeException e) {
+            e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
     }
